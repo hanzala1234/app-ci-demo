@@ -30,8 +30,7 @@ def helmInstall (namespace, release) {
         sh "helm repo add helm ${HELM_REPO}; helm repo update"
         sh """
             helm upgrade --install --namespace ${namespace} ${release} \
-                --set imagePullSecrets=${IMG_PULL_SECRET} \
-                --set image.repository=${DOCKER_REG}/${IMAGE_NAME},image.tag=${DOCKER_TAG} helm/acme
+                 --set image.repository=${DOCKER_REG}/${IMAGE_NAME},image.tag=${DOCKER_TAG} jenkins-pipeline-kubernetes/helm/acme
         """
         sh "sleep 5"
     }
@@ -123,7 +122,6 @@ pipeline {
         // The commented out parameters are for optionally using them in the pipeline.
         // In this example, the parameters are loaded from file ${JENKINS_HOME}/parameters.groovy later in the pipeline.
         // The ${JENKINS_HOME}/parameters.groovy can be a mounted secrets file in your Jenkins container.
-/*
         string (name: 'DOCKER_REG',       defaultValue: 'docker-artifactory.my',                   description: 'Docker registry')
         string (name: 'DOCKER_TAG',       defaultValue: 'dev',                                     description: 'Docker tag')
         string (name: 'DOCKER_USR',       defaultValue: 'admin',                                   description: 'Your helm repository user')
@@ -132,7 +130,7 @@ pipeline {
         string (name: 'HELM_REPO',        defaultValue: 'https://artifactory.my/artifactory/helm', description: 'Your helm repository')
         string (name: 'HELM_USR',         defaultValue: 'admin',                                   description: 'Your helm repository user')
         string (name: 'HELM_PSW',         defaultValue: 'password',                                description: 'Your helm repository password')
-*/
+
     }
 
     // In this example, all is built and run from the master
@@ -154,14 +152,14 @@ pipeline {
                 sh "helm init"
 
                 // Make sure parameters file exists
-                script {
-                    if (! fileExists("${PARAMETERS_FILE}")) {
-                        echo "ERROR: ${PARAMETERS_FILE} is missing!"
-                    }
-                }
+                // script {
+                //     if (! fileExists("${PARAMETERS_FILE}")) {
+                //         echo "ERROR: ${PARAMETERS_FILE} is missing!"
+                //     }
+                // }
 
                 // Load Docker registry and Helm repository configurations from file
-                load "${JENKINS_HOME}/parameters.groovy"
+                // load "${JENKINS_HOME}/parameters.groovy"
 
                 echo "DOCKER_REG is ${DOCKER_REG}"
                 echo "HELM_REPO  is ${HELM_REPO}"
