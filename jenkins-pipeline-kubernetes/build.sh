@@ -56,7 +56,7 @@ dockerLogin () {
             errorExit "Docker credentials not set (DOCKER_USR and DOCKER_PSW)"
         fi
 
-        docker login ${DOCKER_REG} -u ${DOCKER_USR} -p ${DOCKER_PSW} || errorExit "Docker login to ${DOCKER_REG} failed"
+        docker login  -u ${DOCKER_USR} -p ${DOCKER_PSW} || errorExit "Docker login to ${DOCKER_REG} failed"
     else
         echo "Docker registry not set. Skipping"
     fi
