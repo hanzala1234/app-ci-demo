@@ -190,7 +190,7 @@ pipeline {
 
                 script {
                     // host_ip = sh(returnStdout: true, script: '/sbin/ip route | awk \'/default/ { print $3 ":${TEST_LOCAL_PORT}" }\'')
-                    host_ip = "172.31.43.68"
+                    host_ip = "172.31.43.68:${TEST_LOCAL_PORT}"
                 }
             }
         }
